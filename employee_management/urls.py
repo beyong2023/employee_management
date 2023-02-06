@@ -15,16 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app_1.views import depart, pretty, user, admin, account
+from app_1.views import depart, pretty, user, admin, account, order, chart, upload, city
 from app_1.views import task
+from django.urls import path, re_path
+from django.views.static import serve
+from django.conf import  settings
 
 urlpatterns = [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}, name='media'),
     # path("admin/", admin.site.urls),
     # 部门管理
     path("depart/list/", depart.depart_list),
     path("depart/add/", depart.depart_add),
     path("depart/delete/", depart.depart_delete),
     path("depart/<int:nid>/edit/", depart.depart_edit),
+    path("depart/multi/", depart.depart_multi),
     # 用户管理
     path("user/list/", user.user_list),
     path("user/add/", user.user_add),
@@ -51,6 +56,24 @@ urlpatterns = [
     path("task/list/", task.task_list),
     path("task/ajax/", task.task_ajax),
     path("task/add/", task.task_add),
+    # 订单管理
+    path("order/list/", order.order_list),
+    path("order/add/", order.order_add),
+    path("order/delete/", order.order_delete),
+    path("order/detail/", order.order_detail),
+    path("order/edit/", order.order_edit),
+    path("chart/list/", chart.chart_list),
+
+    path("chart/bar/", chart.chart_bar),
+    path("chart/pie/", chart.chart_pie),
+    path("chart/highcharts/", chart.high_charts),
+
+    path("upload/list/", upload.upload_list),
+    path("upload/form/", upload.upload_form),
+    path("upload/model/form/", upload.upload_model_form),
+
+    path("city/list/", city.city_list),
+    path("city/add/", city.city_add),
 ]
 
 
